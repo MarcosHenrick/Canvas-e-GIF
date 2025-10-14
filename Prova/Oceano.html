@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Oceano</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: black;
+    }
+    #oceano {
+      width: 500px;   
+      height: 350px;  
+      filter: blur(1px);
+      border-radius: 10px;
+      display: block; 
+    }
+  </style>
+</head>
+<body>
+ 
+  <canvas id="oceano"></canvas>
+
+  <script>
+    const canvas = document.getElementById('oceano');
+    const ctx = canvas.getContext('2d');
+
+   
+    const cssWidth  = 500;
+    const cssHeight = 350;
+
+    const dpr = window.devicePixelRatio || 1;
+
+  
+    canvas.style.width  = cssWidth + 'px';
+    canvas.style.height = cssHeight + 'px';
+
+    canvas.width  = Math.round(cssWidth * dpr);
+    canvas.height = Math.round(cssHeight * dpr);
+
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+
+    const grad = ctx.createLinearGradient(0, 0, 0, cssHeight);
+    grad.addColorStop(0, "#87CEEB");
+    grad.addColorStop(0.6, "#4682B4");
+    grad.addColorStop(1, "#191970");
+
+    ctx.fillStyle = grad;
+    ctx.fillRect(0, 0, cssWidth, cssHeight);
+
+    const centroX = cssWidth / 2;
+    const centroY = cssHeight / 2;
+
+    const bolhas = [
+      { x: centroX - 100, y: centroY - 20, r: 45 },
+      { x: centroX,       y: centroY,       r: 45 },
+      { x: centroX + 100, y: centroY + 20, r: 45 }
+    ];
+
+    ctx.fillStyle = "rgba(255, 255, 255, 0.25)";
+    ctx.shadowColor = "rgba(255,255,255,0.3)";
+    ctx.shadowBlur = 20;
+
+    bolhas.forEach(b => {
+      ctx.beginPath();
+      ctx.arc(b.x, b.y, b.r, 0, Math.PI * 2);
+      ctx.fill();
+    });
+  </script>
+</body>
+</html>
